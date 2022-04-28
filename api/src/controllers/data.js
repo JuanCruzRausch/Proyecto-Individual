@@ -15,7 +15,8 @@ const getApiInfo = async () => {
             subregion: c.subregion,
             area: c.area,
             population: c.population,
-            googleMaps: c.maps.googleMaps
+            googleMaps: c.maps.googleMaps,
+            code: c.fifa
         }
     })
 
@@ -36,7 +37,8 @@ const setDBCountries = async () => {
                 subregion: c.subregion,
                 area: c.area,
                 population: c.population,
-                googleMaps: c.googleMaps
+                googleMaps: c.googleMaps,
+                code: c.code
             }
         });
     });
@@ -60,7 +62,19 @@ const getDBActivities = async () => {
     return await Activities.findAll()
 }
 
+//Obtener todos los continentes sin repetirlos
+const getContinents = async () => {
+    let countries = await getDBCountries()
+    let continents = []
+    countries.filter( c => {
+        continents.push(c.continent)
+    })
+    let arrNonRepeted = [ ...new Set(continents)]
+    return arrNonRepeted
+}
+
 module.exports.getApiInfo = getApiInfo
 module.exports.setDBCountries = setDBCountries
 module.exports.getDBCountries = getDBCountries
 module.exports.getDBActivities = getDBActivities
+module.exports.getContinents = getContinents
