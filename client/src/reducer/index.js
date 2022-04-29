@@ -2,7 +2,8 @@ const initialState = {
     countries: [],
     continents: [],
     country: {},
-    activities: []
+    activities: [],
+    filters: {order: "", continent: "", activity: ""}
 }
 
 const rootReducer = (state = initialState, action) => {
@@ -36,6 +37,11 @@ const rootReducer = (state = initialState, action) => {
             return{
                 ...state,
                 countries: action.payload
+            }
+        case "SET_FILTERS":
+            return{
+                ...state,
+                filters: action.payload
             }
         default:
             return {...state}

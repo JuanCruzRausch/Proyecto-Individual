@@ -62,3 +62,10 @@ export const filter = (obj) => async (dispatch) => {
         payload: countriesFiltered.data
     })
 }
+
+export const setFilters = (form) => (dispatch) => {
+    return dispatch({
+        type: "SET_FILTERS",
+        payload: form
+    })
+}

@@ -1,6 +1,6 @@
 import React, {  useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { getAllContinents, getAllCountries, getAllActivities, filter} from "../actions/index"
+import { getAllContinents, getAllCountries, getAllActivities, filter, setFilters} from "../actions/index"
 import { Link } from "react-router-dom"
 import Card from "./Card"
 import Paginate from "./Paginate"
@@ -9,9 +9,10 @@ const Home = () => {
     const dispatch = useDispatch()
     
     const state = useSelector(state => state)
-    const { continents, activities, countries } = state
+    const { continents, activities, countries, filters } = state
 
-    const [ formulario, setFormulario ] = useState({order: "", continent: "", activity: ""})
+    let filtersParam = {...filters}
+
     const [ currentPage, setCurrentPage ] = useState(1)
     const [ countriesPerPage, setCountriesPerPage ] = useState(10)
     const indexOfLastCountry = currentPage * countriesPerPage
@@ -23,10 +24,10 @@ const Home = () => {
     }
 
     useEffect(() => {
-        dispatch(getAllCountries())
+        dispatch(filter(filters))
         dispatch(getAllContinents())
         dispatch(getAllActivities())
-    },[dispatch])
+    },[dispatch, filters])
 
     const handleClick = (e) => {
         e.preventDefault()
@@ -35,12 +36,14 @@ const Home = () => {
     
     const handleSubmit = e => {
         e.preventDefault()
-        console.log(formulario);
-        dispatch(filter(formulario))
+        dispatch(setFilters(filtersParam))
+        console.log(filtersParam);
+        
     }
     
     const handleChange = e => {
-        setFormulario({...formulario, [e.target.name]: e.target.value})
+        filtersParam = {...filters, [e.target.name]: e.target.value}
+        
     }
 
     return(
@@ -52,13 +55,13 @@ const Home = () => {
             <button onClick={(e) => handleClick(e)}>Reload all countries</button>
             <div>
                 <form onSubmit={e => handleSubmit(e)}>
-                    <h2>Order</h2>
+                    <h2>Order by</h2>
                     <select name="order" onChange={e => handleChange(e)}>
                         <option value="">-- Select Order --</option>
-                        <option value="asc-p">Ascending by population</option>
-                        <option value="desc-p">Descending by population</option>
                         <option value="asc-a">Ascending by alphabet</option>
                         <option value="desc-a">Descending by alphabet</option>
+                        <option value="asc-p">Ascending by population</option>
+                        <option value="desc-p">Descending by population</option>
                     </select>
                     <h2>Continent</h2>
                     <select name="continent" onChange={e => handleChange(e)}>
