@@ -26,7 +26,7 @@ const Detail = () => {
             <h3>Capital: {c?.capital}</h3>
             <p>Area: {c?.area} km<sup>2</sup></p>
             <p>Population: {c?.population}</p>
-            {c?.activities ? c?.activities.map(a => <p>{a?.name}</p>) : null}
+            {c?.activities ? c?.activities.map(a => <p>{a?.name} {a?.duration}</p>) : null}
             <button><a href={c?.googleMaps} target="_blank" rel="noreferrer"> Go to Maps </a></button>
             <Link to ="/home">
                 <button> Back to home </button>

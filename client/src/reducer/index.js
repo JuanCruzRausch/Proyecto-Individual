@@ -1,6 +1,7 @@
 const initialState = {
     countries: [],
     continents: [],
+    subregions: [],
     country: {},
     activities: [],
     filters: {order: "", continent: "", activity: ""}
@@ -28,6 +29,11 @@ const rootReducer = (state = initialState, action) => {
                 ...state,
                 activities: action.payload
             }
+        case "GET_ALL_SUBREGIONS":
+            return{
+                ...state,
+                subregions: action.payload
+            }
         case "DELETE_DETAIL":
             return{
                 ...state,
@@ -42,6 +48,19 @@ const rootReducer = (state = initialState, action) => {
             return{
                 ...state,
                 filters: action.payload
+            }
+        case "GET_COUNTRY_SEARCH":
+            return{
+                ...state,
+                countries: action.payload
+            }
+        case "POST_ACTIVITY":
+            return{
+             ...state
+            }
+        case "POST_COUNTRY":
+            return{
+                ...state
             }
         default:
             return {...state}

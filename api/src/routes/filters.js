@@ -9,11 +9,15 @@ filters.get("/", async(req,res) => {
     const countries = await getDBCountries()
     const countriesWithFilters = countries.filter(c => {
         if(continent && activity){
-            return c.continent.includes(continent) && c.activities.includes(activity)
+            let arr = []
+            c.activities.map(a => arr.push(a.name))
+            return c.continent.includes(continent) && arr.includes(activity)
         }else if(continent){
             return c.continent.includes(continent)
         }else if(activity){
-            return c.activities.includes(activity)
+            let arr = []
+            c.activities.map(a => arr.push(a.name))
+            return arr.includes(activity)
         }else{
             return c
         }

@@ -49,7 +49,6 @@ const getDBCountries = async () => {
     return await Country.findAll({
         include: {
             model: Activities,
-            attributes: ['name'],
             through: {
                 attributes: [],
             }
@@ -73,8 +72,30 @@ const getContinents = async () => {
     return arrNonRepeted
 }
 
+//Obtener todas las subregiones sin repetirlos
+const getSubregions = async () => {
+    let countries = await getDBCountries()
+    let subregions = []
+    countries.filter( c => {
+        subregions.push(c.subregion)
+    })
+    let arrNonRepeted = [ ...new Set(subregions)]
+    let arrFixed = arrNonRepeted.filter(e => e !== null)
+    let arrFixedInOrder = arrFixed.sort((a,b) => {
+        if (a > b) {
+            return 1;
+          }
+          if (a < b) {
+            return -1;
+          }
+          return 0;
+    })
+    return arrFixedInOrder
+}
+
 module.exports.getApiInfo = getApiInfo
 module.exports.setDBCountries = setDBCountries
 module.exports.getDBCountries = getDBCountries
 module.exports.getDBActivities = getDBActivities
 module.exports.getContinents = getContinents
+module.exports.getSubregions = getSubregions

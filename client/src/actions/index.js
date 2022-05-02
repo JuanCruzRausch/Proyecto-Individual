@@ -24,6 +24,14 @@ export const getAllContinents = () => async (dispatch) => {
     })
 }
 
+export const getAllSubregions = () => async (dispatch) => {
+    let subregions = await axios("http://localhost:3001/continents/subregion")
+    return dispatch({
+        type: "GET_ALL_SUBREGIONS",
+        payload: subregions.data
+    })
+}
+
 export const getAllActivities = () => async (dispatch) => {
     let activities = await axios("http://localhost:3001/activity")
     return dispatch({
@@ -68,4 +76,22 @@ export const setFilters = (form) => (dispatch) => {
         type: "SET_FILTERS",
         payload: form
     })
+}
+
+export const getCountriesSearch = (value) => async (dispatch) => {
+    let countries = await axios(`http://localhost:3001/countries?name=${value}`)
+    return dispatch({
+        type: "GET_COUNTRY_SEARCH",
+        payload: countries.data
+    })
+}
+
+export const postActivity = (data) => async (dispatch) => {
+    let post = await axios.post("http://localhost:3001/activity", data)
+    return post
+}
+
+export const postCountry = (data) => async (dispatch) => {
+    let post = await axios.post("http://localhost:3001/countries", data)
+    return post
 }

@@ -15,8 +15,8 @@ activity.get("/", async(req,res) => {
 
 activity.post("/", async(req, res) => {
     try{
-        const { name, difficulty, duration, season} = req.body
-        await Activities.create({name: name, difficulty: difficulty, duration: duration, season: season})
+        const { name, difficulty, duration, season, image} = req.body
+        await Activities.create({name: name, difficulty: difficulty, duration: duration, season: season, image: image})
         res.send("Saved succesfully")
     }catch(e){
         res.send("Error: " + e)
