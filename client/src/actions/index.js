@@ -46,6 +46,12 @@ export const deleteDetail = () => (dispatch) => {
     })
 }
 
+export const deleteFilters = () => (dispatch) => {
+    return dispatch({
+        type: "DELETE_FILTERS"
+    })
+}
+
 export const filter = (obj) => async (dispatch) => {
     let countriesFiltered
     if(obj.continent && obj.order && obj.activity){
@@ -94,4 +100,15 @@ export const postActivity = (data) => async (dispatch) => {
 export const postCountry = (data) => async (dispatch) => {
     let post = await axios.post("http://localhost:3001/countries", data)
     return post
+}
+
+export const setCurrentPage = (num) => dispatch => {
+    return dispatch({
+        type: "SET_PAGE",
+        payload: num
+    })
+}
+
+export const resetPage = () => dispatch => {
+    return dispatch({type: "RESET_PAGE"})
 }

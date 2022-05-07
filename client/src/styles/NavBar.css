@@ -1,0 +1,37 @@
+.nav-menu{
+    background-color: #000;
+    border-right: 5px solid #79B4B7;
+    width: 250px;
+    height: 100vh;
+    display: flex;
+    
+    flex-direction: column;
+    position: fixed;
+    z-index: 20;
+    top: 0;
+    left: -100%;
+    transition: 850ms;
+}
+
+.nav-menu > ion-icon{
+    font-size: 2rem;
+    color: #fff;
+    margin-left: 20px;
+    margin-top: 20px;
+    cursor: pointer;
+}
+
+.nav-menu.active{
+    left: 0;
+    transition: 350ms;
+}
+
+
+.navbar-toggle {
+    background-color: #000;
+    width: 100%;
+    height: 80px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}

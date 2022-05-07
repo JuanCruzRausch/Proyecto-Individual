@@ -2,29 +2,39 @@ import React, { useState, useEffect } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { getAllActivities, getAllContinents, getAllSubregions, postCountry } from "../actions"
+import { Formulario, Label, Select, NameDiv, ActivitiesDiv, CheckInput, ErrorDiv, Button, ButtonCenter, ButtonHome, Success, HomeDiv } from "../styles/FormActStyled";
+import "../styles/FormActivity.css"
+import InputForm from "./InputForm";
+import NavBar from "./NavBar";
 
 const CreatingCountry = () => {
     const dispatch = useDispatch()
-
     const navigate = useNavigate()
+    const state = useSelector( state => state)
+    const { activities, subregions, continents } = state
 
-    const state = useSelector(state => state)
-    const { continents, subregions , activities} = state
+    const [ name, setName ] = useState({field: "", validate: null})
+    const [ flag, setFlag ] = useState({field: "", validate: null})
+    const [ capital, setCapital ] = useState({field: "", validate: null})
+    const [ googleMaps, setGoogleMaps ] = useState({field: "", validate: null})
+    const [ code, setCode ] = useState({field: "", validate: null})
+    const [ area, setArea ] = useState({field: null, validate: null})
+    const [ population, setPopulation ] = useState({field: null, validate: null})
+    const [ formulario, setFormulario ] = useState({continent: "", subregion: "", activities:[]})
 
-    const [ formulario, setFormulario ] = useState({name: "", flag: "", continent: "", subregion: "", capital: "", area: 0, population: 0, googleMaps: "", code: "", activities: []})
+    const [ validate , setValidate ] = useState(null)
 
-    useEffect(() => {        
-        dispatch(getAllContinents())
-        dispatch(getAllSubregions())
-        dispatch(getAllActivities())
-    },[dispatch])
-
-    const handleSubmit = e => {
+    const handleSubmit = (e) => {
         e.preventDefault()
-        dispatch(postCountry(formulario))
-        setFormulario({name: "", flag: "", continent: "", subregion: "", capital: "", area: 0, population: 0, googleMaps: "", code: "", activities: []})
-        alert("Country successfully created!")
-        navigate("/home")
+        if(area.validate === 'true' && population.validate === 'true' && code.validate === 'true' && name.validate === 'true' && flag.validate === 'true' && capital.validate === 'true' && googleMaps.validate === 'true' && formulario.continent && formulario.subregion){
+            setValidate(true)
+            dispatch(postCountry({name: name.field, flag: flag.field, continent: formulario.continent, subregion: formulario.subregion, capital: capital.field, area: Number(area.field), population: Number(population.field), googleMaps: googleMaps.field, code: code.field.toUpperCase(), activities: formulario.activities}))
+            setTimeout( () => {
+                navigate("/home")
+            },2000)
+        }else{
+            setValidate(false)
+        }
     }
 
     const handleChange = e => {
@@ -37,50 +47,223 @@ const CreatingCountry = () => {
         }
     }
 
+    useEffect( () => {
+        dispatch(getAllActivities())
+        dispatch(getAllContinents())
+        dispatch(getAllSubregions())
+    }, [dispatch])
+
     return(
-        <div>
-            <Link to="/home"><button>Back to Home</button></Link>
-            <h1>Create an Activity</h1>
-            <form onSubmit={e => handleSubmit(e)}>
-                <label>Name: </label>
-                <input type="text" name="name" value={formulario.name} onChange={e => handleChange(e)}/>
-                <br/><br/>
-                <label>Flag (url): </label>
-                <input type="url" name="flag" value={formulario.flag} onChange={e => handleChange(e)}/>
-                <br/><br/>
-                <label>Continent: </label>
-                <select name="continent" onChange={e => handleChange(e)}>
-                    {continents?.map(c => <option key={c} value={c}>{c}</option>)}
-                </select>
-                <br/><br/>
-                <label>Subregion: </label>
-                <select name="subregion" onChange={e => handleChange(e)}>
-                    {subregions?.map(s => <option key={s} value={s}>{s}</option>)}
-                </select>
-                <br/><br/>
-                <label>Capital: </label>
-                <input type="text" name="capital" value={formulario.capital} onChange={e => handleChange(e)}/>
-                <br/><br/>
-                <label>Area: </label>
-                <input type="text" name="area" value={formulario.area} onChange={e => handleChange(e)}/>
-                <br/><br/>
-                <label>Population: </label>
-                <input type="text" name="population" value={formulario.population} onChange={e => handleChange(e)}/>
-                <br/><br/>
-                <label>Google map: </label>
-                <input type="text" name="googleMaps" value={formulario.googleMaps} onChange={e => handleChange(e)}/>
-                <br/><br/>
-                <label>Code: </label>
-                <input type="text" name="code" value={formulario.code} onChange={e => handleChange(e)}/>
-                <br/><br/>
-                <div>
-                    <label>Activities: </label>
-                    {activities?.map(a => <div><label><input type="checkbox" name={a.name} value={a.name} onChange={e => handleChecked(e)}/>{a.name}</label></div>)}
-                </div>
-                <button type="submit">Save</button>
-            </form>
+        <div className="formActDiv">
+            <NavBar />
+            
+            <div className="container">
+                <Formulario onSubmit={handleSubmit}>
+                    <NameDiv>
+                        <InputForm 
+                            type="text" 
+                            state={name} 
+                            changeState={setName} 
+                            name="name" 
+                            placeholder="name..." 
+                            label="Name" 
+                            error="Type 4 to 40 characters, only letters"
+                            regularExpresion={/^[a-zA-ZÀ-ÿ\s]{4,40}$/}
+                        />
+                    </NameDiv>
+                    <InputForm 
+                        type="url" 
+                        state={flag} 
+                        changeState={setFlag} 
+                        name="flag" 
+                        placeholder="image url..." 
+                        label="Flag image" 
+                        error="Insert an image url"
+                        regularExpresion={/(https?:\/\/.*\.(?:png|jpg))/i}
+                    />
+                    <div>
+                        <Label htmlFor="continent">Continent</Label>
+                        <Select name="continent" id="continent" onChange={e => handleChange(e)}>
+                            {continents?.map(c => <option value={c}>{c}</option>)}
+                        </Select>
+                    </div>
+                    <div>
+                        <Label htmlFor="subregion">Subregion</Label>
+                        <Select name="subregion" id="subregion" onChange={e => handleChange(e)}>
+                            {subregions?.map(s => <option value={s}>{s}</option>)}
+                        </Select>
+                    </div>
+                    <InputForm 
+                        type="text" 
+                        state={capital} 
+                        changeState={setCapital} 
+                        name="capital" 
+                        placeholder="capital..." 
+                        label="Capital" 
+                        error="Type 4 to 40 characters, only letters"
+                        regularExpresion={/^[a-zA-ZÀ-ÿ\s]{4,40}$/}
+                    />
+                    <InputForm 
+                        type="text" 
+                        state={code} 
+                        changeState={setCode} 
+                        name="code" 
+                        placeholder="code..." 
+                        label="Code" 
+                        error="Type 3 letters"
+                        regularExpresion={/^[a-zA-ZÀ-ÿ\s]{3,3}$/}
+                    />
+                    <InputForm 
+                        type="number" 
+                        state={area} 
+                        changeState={setArea} 
+                        name="area" 
+                        placeholder="area..." 
+                        label="Area" 
+                        error="Type only numbers"
+                        regularExpresion={/^\d+$/}
+                    />
+                    <InputForm 
+                        type="number" 
+                        state={population} 
+                        changeState={setPopulation} 
+                        name="population" 
+                        placeholder="population..." 
+                        label="Population" 
+                        error="Type only numbers"
+                        regularExpresion={/^\d+$/}
+                    />
+                    <InputForm 
+                        type="url" 
+                        state={googleMaps} 
+                        changeState={setGoogleMaps} 
+                        name="googleMaps" 
+                        placeholder="google maps url..." 
+                        label="Google Maps" 
+                        error="Insert a google map url"
+                        regularExpresion={/^http\:\/\/|https\:\/\/|www\.google$/}
+                    />
+                    <NameDiv>
+                        <Label>Activities</Label>
+                        <ActivitiesDiv>
+                            {activities?.map(a => <label className="label"><CheckInput type="checkbox" name={a.name} value={a.name} onChange={e => handleChecked(e)}/>{a.name}</label>)}
+                        </ActivitiesDiv>
+                    </NameDiv>
+                    {validate === false && <ErrorDiv>
+                        <p>
+                            <ion-icon name="warning-outline"></ion-icon>
+                            <b>Error:</b> Please complete the form correctly!
+                        </p>
+                    </ErrorDiv>}
+                    <ButtonCenter>
+                        <Button type="submit"><ion-icon name="chevron-up-circle-outline"></ion-icon>Save</Button>
+                        {validate === true && <Success>Successfully saved, redirecting to home</Success>}
+                    </ButtonCenter>
+                    <HomeDiv>
+                        <Link to="/home"><ButtonHome><ion-icon name="home-outline"></ion-icon>Home</ButtonHome></Link>
+                    </HomeDiv>
+                </Formulario>
+            </div>
         </div>
     )
 }
 
 export default CreatingCountry
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// const CreatingCountry = () => {
+//     const dispatch = useDispatch()
+
+//     const navigate = useNavigate()
+
+//     const state = useSelector(state => state)
+//     const { continents, subregions , activities} = state
+
+//     const [ formulario, setFormulario ] = useState()
+
+//     useEffect(() => {        
+//         dispatch(getAllContinents())
+//         dispatch(getAllSubregions())
+//         dispatch(getAllActivities())
+//     },[dispatch])
+
+//     const handleSubmit = e => {
+//         e.preventDefault()
+//         dispatch(postCountry(formulario))
+//         setFormulario({name: "", flag: "", continent: "", subregion: "", capital: "", area: 0, population: 0, googleMaps: "", code: "", activities: []})
+//         alert("Country successfully created!")
+//         navigate("/home")
+//     }
+
+
+
+//     return(
+//         <div>
+//             <Link to="/home"><button>Back to Home</button></Link>
+//             <h1>Create an Activity</h1>
+//             <form onSubmit={e => handleSubmit(e)}>
+//                 <label>Name: </label>
+//                 <input type="text" name="name" value={formulario.name} onChange={e => handleChange(e)}/>
+//                 <br/><br/>
+//                 <label>Flag (url): </label>
+//                 <input type="url" name="flag" value={formulario.flag} onChange={e => handleChange(e)}/>
+//                 <br/><br/>
+//                 <label>Continent: </label>
+//                 <select name="continent" onChange={e => handleChange(e)}>
+//                     {continents?.map(c => <option key={c} value={c}>{c}</option>)}
+//                 </select>
+//                 <br/><br/>
+//                 <label>Subregion: </label>
+//                 <select name="subregion" onChange={e => handleChange(e)}>
+//                     {subregions?.map(s => <option key={s} value={s}>{s}</option>)}
+//                 </select>
+//                 <br/><br/>
+//                 <label>Capital: </label>
+//                 <input type="text" name="capital" value={formulario.capital} onChange={e => handleChange(e)}/>
+//                 <br/><br/>
+//                 <label>Area: </label>
+//                 <input type="text" name="area" value={formulario.area} onChange={e => handleChange(e)}/>
+//                 <br/><br/>
+//                 <label>Population: </label>
+//                 <input type="text" name="population" value={formulario.population} onChange={e => handleChange(e)}/>
+//                 <br/><br/>
+//                 <label>Google map: </label>
+//                 <input type="text" name="googleMaps" value={formulario.googleMaps} onChange={e => handleChange(e)}/>
+//                 <br/><br/>
+//                 <label>Code: </label>
+//                 <input type="text" name="code" value={formulario.code} onChange={e => handleChange(e)}/>
+//                 <br/><br/>
+//                 <div>
+//                     <label>Activities: </label>
+//                     {activities?.map(a => <div><label><input type="checkbox" name={a.name} value={a.name} onChange={e => handleChecked(e)}/>{a.name}</label></div>)}
+//                 </div>
+//                 <button type="submit">Save</button>
+//             </form>
+//         </div>
+//     )
+// }
+
+// export default CreatingCountry

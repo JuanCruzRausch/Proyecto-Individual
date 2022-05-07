@@ -1,4 +1,5 @@
 import React from "react";
+import { Button, DivPag } from "../styles/CardContainer";
 
 const Paginate = ({ countriesPerPage, allCountries, paginate }) => {
     const pageNum = []
@@ -7,9 +8,9 @@ const Paginate = ({ countriesPerPage, allCountries, paginate }) => {
     }
 
     return(
-        <nav>
-            {pageNum?.map(p => <button onClick={() => paginate(p)}>{p}</button>)}
-        </nav>
+        <DivPag>
+            {pageNum?.map(p => <Button onClick={() => paginate(p)}>{p}</Button>)}
+        </DivPag>
     )
 }
 
