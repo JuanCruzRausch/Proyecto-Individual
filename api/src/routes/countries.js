@@ -54,4 +54,40 @@ countries.post("/", async (req,res) => {
     }
 })
 
+countries.delete("/delete/:id", async(req,res) => {
+    try{
+        const {id} = req.params
+        await Country.destroy({
+            where: {
+                id: id
+            }
+        })
+        res.send("Country deleted")
+    }catch(e){
+        res.send(e);
+    }
+})
+
+countries.put("/edit/:id", async(req,res) =>{
+    try{
+        const { id } = req.params
+        const { name, flag, continent, subregion, capital, area, population, googleMaps, code, activities } = req.body
+        let countryUpdate = await Country.findOne({
+            where: {
+                id: id
+            }
+        })
+        let newUpdate = await countryUpdate.update({name, flag, continent, subregion, capital, area, population, googleMaps, code, activities})
+        let activitiesDB = await Activities.findAll({
+            where: {
+                name: activities
+            }
+        })
+        newUpdate.setActivities(activitiesDB)
+        res.json(newUpdate)
+    }catch(e){
+        res.send(e)
+    }
+})
+
 module.exports = countries;

@@ -337,4 +337,11 @@ const CheckInput = styled.input`
     }
 `
 
+export const  H1div = styled.div`
+    width: 100%;
+    border-bottom: 5px solid ${colores.inputBlue};
+    background-color: #000;
+    color: #fff;
+`
+
 export { CheckInput ,ActivitiesDiv, NameDiv, Label, Formulario, GrupoInput, Input, Error, ButtonCenter, Button, Success, ErrorDiv, DivIcon, Select, Range, DivRange, ButtonHome, HomeDiv}

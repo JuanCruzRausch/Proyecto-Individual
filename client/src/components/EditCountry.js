@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from "react"
-import { Link, useNavigate } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
-import { getAllActivities, getAllContinents, getAllSubregions, postCountry } from "../actions"
-import { Formulario, Label, Select, NameDiv, ActivitiesDiv, CheckInput, ErrorDiv, Button, ButtonCenter, ButtonHome, Success, HomeDiv } from "../styles/FormActStyled";
+import { getAllActivities, getAllContinents, getAllSubregions, getCountry, editCountry } from "../actions"
+import { Formulario, Label, Select, NameDiv, ActivitiesDiv, CheckInput, ErrorDiv, Button, ButtonCenter, ButtonHome, Success, HomeDiv, H1div } from "../styles/FormActStyled";
 import "../styles/FormActivity.css"
 import InputForm from "./InputForm";
-import NavBar from "./NavBar";
 
-const CreatingCountry = () => {
+const EditCountry = () => {
+    const params = useParams()
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const state = useSelector( state => state)
-    const { activities, subregions, continents } = state
+    const { activities, subregions, continents, country } = state
 
     const [ name, setName ] = useState({field: "", validate: null})
     const [ flag, setFlag ] = useState({field: "", validate: null})
@@ -26,9 +26,20 @@ const CreatingCountry = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        if(area.validate === 'true' && population.validate === 'true' && code.validate === 'true' && name.validate === 'true' && flag.validate === 'true' && capital.validate === 'true' && googleMaps.validate === 'true' && formulario.continent && formulario.subregion){
+        if(area.validate === 'true' || population.validate === 'true' || code.validate === 'true' || name.validate === 'true' || flag.validate === 'true' || capital.validate === 'true' || googleMaps.validate === 'true' || formulario.continent || formulario.subregion){
             setValidate(true)
-            dispatch(postCountry({name: name.field, flag: flag.field, continent: formulario.continent, subregion: formulario.subregion, capital: capital.field, area: Number(area.field), population: Number(population.field), googleMaps: googleMaps.field, code: code.field.toUpperCase(), activities: formulario.activities}))
+            dispatch(editCountry({
+                name: name.field === "" ? country[0]?.name : name.field,
+                flag: flag.field  === "" ? country[0].flag : flag.field,
+                continent: formulario.continent  === "" ? country[0].continent : formulario.continent,
+                subregion: formulario.subregion  === "" ? country[0].subregion : formulario.subregion,
+                capital: capital.field  === "" ? country[0].capital : capital.field,
+                area: Number(area.field) === null ? country[0].area : Number(area.field),
+                population: Number(population.field) === null ? country[0].population : Number(population.field),
+                googleMaps: googleMaps.field === "" ? country[0].googleMaps : googleMaps.field,
+                code: code.field.toUpperCase() === "" ? country[0].code : code.field.toUpperCase(),
+                activities: formulario.activities.length === 0? country[0].activities : formulario.activities
+            }, params.id))
             setTimeout( () => {
                 navigate("/home")
             },2000)
@@ -48,15 +59,17 @@ const CreatingCountry = () => {
     }
 
     useEffect( () => {
+        dispatch(getCountry(params.id))
         dispatch(getAllActivities())
         dispatch(getAllContinents())
         dispatch(getAllSubregions())
-    }, [dispatch])
+    }, [dispatch, params.id])
 
     return(
         <div className="formActDiv">
-            <NavBar />
-            
+            <H1div>
+                <h1>Editing form</h1>
+            </H1div>
             <div className="container">
                 <Formulario onSubmit={handleSubmit}>
                     <NameDiv>
@@ -145,6 +158,7 @@ const CreatingCountry = () => {
                     />
                     <NameDiv>
                         <Label>Activities</Label>
+                        <p>¡If this country already has one or more of the activities below, and you don't want to delete them, check them again!</p>
                         <ActivitiesDiv>
                             {activities?.map(a => <label className="label"><CheckInput type="checkbox" name={a.name} value={a.name} onChange={e => handleChecked(e)}/>{a.name}</label>)}
                         </ActivitiesDiv>
@@ -152,12 +166,12 @@ const CreatingCountry = () => {
                     {validate === false && <ErrorDiv>
                         <p>
                             <ion-icon name="warning-outline"></ion-icon>
-                            <b>Error:</b> Please complete the form correctly!
+                            <b>Error:</b> Please edit at least one field!
                         </p>
                     </ErrorDiv>}
                     <ButtonCenter>
                         <Button type="submit"><ion-icon name="chevron-up-circle-outline"></ion-icon>Save</Button>
-                        {validate === true && <Success>Successfully saved, redirecting to home</Success>}
+                        {validate === true && <Success>Successfully edited, redirecting to home</Success>}
                     </ButtonCenter>
                     <HomeDiv>
                         <Link to="/home"><ButtonHome><ion-icon name="home-outline"></ion-icon>Home</ButtonHome></Link>
@@ -168,4 +182,4 @@ const CreatingCountry = () => {
     )
 }
 
-export default CreatingCountry
+export default EditCountry

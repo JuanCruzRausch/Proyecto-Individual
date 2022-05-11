@@ -75,7 +75,7 @@ const NavSearch = styled.div`
         padding-left: 0;
     }
     @media screen and (max-width: 650px){
-        margin-right: 100px;
+        margin-right: 75px;
         padding-left: 0;
         white-space: normal;
     }

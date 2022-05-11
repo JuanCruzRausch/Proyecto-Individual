@@ -5,6 +5,8 @@ import Home from './components/Home';
 import Detail from './components/Detail';
 import CreatingActivity from './components/CreatingActivity';
 import CreatingCountry from './components/CreatingCountry';
+import EditCountry from './components/EditCountry';
+import AddActivitiesEdit from './components/AddActivitiesEdit';
 
 function App() {
   return (
@@ -15,6 +17,8 @@ function App() {
         <Route exact path="/detail/:id" element={<Detail />} />
         <Route exact path="/activity" element={<CreatingActivity />} />
         <Route exact path="/country" element={<CreatingCountry />} />
+        <Route exact path="/edit/:id" element={<EditCountry />} />
+        <Route exact path="/addact/:id" element={<AddActivitiesEdit />} />
       </Routes>
     </div>
   );

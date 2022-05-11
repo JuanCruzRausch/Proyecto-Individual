@@ -16,6 +16,11 @@ export const Input = styled.input`
     &:hover{
         border: 2px solid #79B4B7;
     }
+
+    @media screen and (max-width: 650px){
+        height: 25px;
+        width: 100px;
+    } 
 `
 
 export const Button = styled.button`
@@ -36,4 +41,8 @@ export const Button = styled.button`
         background: #FEFBF3;
         color: #79B4B7;
     }
+    @media screen and (max-width: 650px){
+        height: 20px;
+        padding: 1px 5px 5px 5px;
+    } 
 `

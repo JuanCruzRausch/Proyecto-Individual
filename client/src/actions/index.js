@@ -112,3 +112,13 @@ export const setCurrentPage = (num) => dispatch => {
 export const resetPage = () => dispatch => {
     return dispatch({type: "RESET_PAGE"})
 }
+
+export const deleteCountry = (id) => dispatch => {
+    axios.delete(`http://localhost:3001/countries/delete/${id}`)
+    return alert("Country deleted")
+}
+
+export const editCountry = (editC, id) => async (dispatch) => {
+    const newEdit = await axios.put(`http://localhost:3001/countries/edit/${id}`, editC)
+    return newEdit
+}
