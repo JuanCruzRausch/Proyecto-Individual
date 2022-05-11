@@ -61,3 +61,12 @@ export const P = styled.p`
         color: #79B4B7;
     }
 `
+
+export const ImgNotFound = styled.img`
+    width: 55%;
+`
+
+export const PNotFound = styled.p`
+    font-size: 1.5rem;
+    font-weight: bold;
+`

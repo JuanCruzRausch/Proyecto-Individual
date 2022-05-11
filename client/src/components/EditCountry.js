@@ -26,7 +26,7 @@ const EditCountry = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        if(area.validate === 'true' || population.validate === 'true' || code.validate === 'true' || name.validate === 'true' || flag.validate === 'true' || capital.validate === 'true' || googleMaps.validate === 'true' || formulario.continent || formulario.subregion){
+        if(area.validate === 'true' || population.validate === 'true' || code.validate === 'true' || name.validate === 'true' || flag.validate === 'true' || capital.validate === 'true' || googleMaps.validate === 'true' || formulario.continent || formulario.subregion || formulario.activities){
             setValidate(true)
             dispatch(editCountry({
                 name: name.field === "" ? country[0]?.name : name.field,
@@ -97,13 +97,15 @@ const EditCountry = () => {
                     <div>
                         <Label htmlFor="continent">Continent</Label>
                         <Select name="continent" id="continent" onChange={e => handleChange(e)}>
+                            <option>--Select Continent--</option>
                             {continents?.map(c => <option value={c}>{c}</option>)}
                         </Select>
                     </div>
                     <div>
                         <Label htmlFor="subregion">Subregion</Label>
                         <Select name="subregion" id="subregion" onChange={e => handleChange(e)}>
-                            {subregions?.map(s => <option value={s}>{s}</option>)}
+                            <option>--Select Subregion--</option>
+                            {subregions?.map(s => <option key={s} value={s}>{s}</option>)}
                         </Select>
                     </div>
                     <InputForm 
@@ -160,7 +162,7 @@ const EditCountry = () => {
                         <Label>Activities</Label>
                         <p>¡If this country already has one or more of the activities below, and you don't want to delete them, check them again!</p>
                         <ActivitiesDiv>
-                            {activities?.map(a => <label className="label"><CheckInput type="checkbox" name={a.name} value={a.name} onChange={e => handleChecked(e)}/>{a.name}</label>)}
+                            {activities?.map(a => <label key={a.name} className="label"><CheckInput type="checkbox" name={a.name} value={a.name} onChange={e => handleChecked(e)}/>{a.name}</label>)}
                         </ActivitiesDiv>
                     </NameDiv>
                     {validate === false && <ErrorDiv>

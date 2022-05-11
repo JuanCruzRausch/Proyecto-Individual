@@ -5,13 +5,14 @@ import Paginate from "./Paginate"
 import { setCurrentPage } from "../actions";
 import { CardCont } from "../styles/CardContainer";
 import Loading from "./Loading";
+import NotFound from "./NotFound";
 
 const CardContainer = () => {
     const dispatch = useDispatch()
 
     const countries = useSelector(state => state.countries)
     const currentPage = useSelector(state => state.currentPage)
-    
+
     const [ load, setLoad ] = useState(false)
 
     const indexOfLastCountry = currentPage * 10
@@ -25,8 +26,8 @@ const CardContainer = () => {
     useEffect(() => {
         setTimeout(() => {
             setLoad(true)
-        }, 4000)
-    }, [currentCountries.length > 0])
+        }, 3500)
+    }, [])
 
     return(
         <div>
@@ -35,9 +36,11 @@ const CardContainer = () => {
             </div>
             <CardCont>
                 {
-                    currentCountries.length > 0 ? 
+                    load === false ?
+                    <Loading /> 
+                    : currentCountries.length > 0 ? 
                         currentCountries.map(c => <Card key={c.id} code={c.code} id={c.id} name={c.name} flag={c.flag} continent={c.continent} />) 
-                    : <Loading />
+                    : <NotFound />
                 }
             </CardCont>
         </div>

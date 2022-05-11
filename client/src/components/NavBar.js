@@ -91,14 +91,14 @@ const NavBar = () => {
                             <LabelFil htmlFor="continent">Continent</LabelFil>
                             <SelectFil name="continent" id="continent" onChange={e => handleChange(e)}>
                                 <option value="">-- Select continent --</option>
-                                {continents?.map(c => <option value={c}>{c}</option>)}
+                                {continents?.map(c => <option key={c} value={c}>{c}</option>)}
                             </SelectFil>
                         </DivSel>
                         <DivSel>
                             <LabelFil htmlFor="activity">Activity</LabelFil>
                             <SelectFil name="activity" id="activity" onChange={e => handleChange(e)}>
                                 <option value="">-- Select Activity --</option>
-                                {activities.length > 0 ? activities?.map(a => <option value={a.name}>{a.name}</option>) : <option>No activities found</option>}
+                                {activities.length > 0 ? activities?.map(a => <option key={a.name} value={a.name}>{a.name}</option>) : <option>No activities found</option>}
                             </SelectFil>
                         </DivSel> 
                         <ButtonFil type="submit" onClick={showSidebar}>Apply</ButtonFil>

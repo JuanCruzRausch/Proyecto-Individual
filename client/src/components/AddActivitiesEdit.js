@@ -47,7 +47,7 @@ const AddActivitiesEdit = () => {
                         <Label>Activities</Label>
                         <p>¡If this country already has one or more of the activities below, and you don't want to delete them, check them again!</p>
                         <ActivitiesDiv>
-                            {activities?.map(a => <label className="label"><CheckInput type="checkbox" name={a.name} value={a.name} onChange={e => handleChecked(e)}/>{a.name}</label>)}
+                            {activities?.map(a => <label key={a.name} className="label"><CheckInput type="checkbox" name={a.name} value={a.name} onChange={e => handleChecked(e)}/>{a.name}</label>)}
                         </ActivitiesDiv>
                     </NameDiv>
                     <ButtonCenter>

@@ -51,7 +51,7 @@ const Detail = () => {
                     <>
                     <h3>Activities</h3>
                     <ActContainer>
-                        {c?.activities.map(a => <ActivityCard url={a.image} name={a.name} difficulty={a.difficulty} duration={a.duration} season={a.season}/>) }
+                        {c?.activities.map(a => <ActivityCard key={a.name} url={a.image} name={a.name} difficulty={a.difficulty} duration={a.duration} season={a.season}/>) }
                     </ActContainer>
                     </>
                 : null}

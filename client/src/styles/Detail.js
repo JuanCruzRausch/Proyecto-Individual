@@ -90,6 +90,7 @@ export const ActContainer = styled.div`
             1fr
         )
     );
+    gap: 10px;
 `
 
 export const DifSpan = styled.span`

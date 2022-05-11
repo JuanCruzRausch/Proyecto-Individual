@@ -84,13 +84,15 @@ const CreatingCountry = () => {
                     <div>
                         <Label htmlFor="continent">Continent</Label>
                         <Select name="continent" id="continent" onChange={e => handleChange(e)}>
-                            {continents?.map(c => <option value={c}>{c}</option>)}
+                            <option>--Select Continent--</option>
+                            {continents?.map(c => <option key={c} value={c}>{c}</option>)}
                         </Select>
                     </div>
                     <div>
                         <Label htmlFor="subregion">Subregion</Label>
                         <Select name="subregion" id="subregion" onChange={e => handleChange(e)}>
-                            {subregions?.map(s => <option value={s}>{s}</option>)}
+                            <option>--Select Subregion--</option>
+                            {subregions?.map(s => <option key={s} value={s}>{s}</option>)}
                         </Select>
                     </div>
                     <InputForm 
@@ -146,7 +148,7 @@ const CreatingCountry = () => {
                     <NameDiv>
                         <Label>Activities</Label>
                         <ActivitiesDiv>
-                            {activities?.map(a => <label className="label"><CheckInput type="checkbox" name={a.name} value={a.name} onChange={e => handleChecked(e)}/>{a.name}</label>)}
+                            {activities?.map(a => <label key={a.name} className="label"><CheckInput type="checkbox" name={a.name} value={a.name} onChange={e => handleChecked(e)}/>{a.name}</label>)}
                         </ActivitiesDiv>
                     </NameDiv>
                     {validate === false && <ErrorDiv>

@@ -29,10 +29,10 @@ const Paginate = ({ countriesPerPage, allCountries, paginate }) => {
     return(
         <DivPages>
         <DivPag>
-            {op === 1 ? pages?.map(p => <Button onClick={() => paginate(p)}>{p}</Button>) : null}
+            {op === 1 ? pages?.map(p => <Button key={p} onClick={() => paginate(p)}>{p}</Button>) : null}
             {op === 2 ? 
                 <>
-                    {pages?.map(p => <Button onClick={() => paginate(p)}>{p}</Button>)}
+                    {pages?.map(p => <Button key={p} onClick={() => paginate(p)}>{p}</Button>)}
                     <Button onClick={() => paginate(currentPage+1)}><ion-icon name="caret-forward"></ion-icon></Button>
                     <Button onClick={() => paginate(currentPage+5)}><ion-icon name="play-forward"></ion-icon></Button>
                 </> : null}
@@ -40,14 +40,14 @@ const Paginate = ({ countriesPerPage, allCountries, paginate }) => {
                 <>
                     <Button onClick={() => paginate(currentPage-5)}><ion-icon name="play-back"></ion-icon></Button>
                     <Button onClick={() => paginate(currentPage-1)}><ion-icon name="caret-back"></ion-icon></Button>
-                    {pages?.map(p => <Button onClick={() => paginate(p)}>{p}</Button>)} 
+                    {pages?.map(p => <Button key={p} onClick={() => paginate(p)}>{p}</Button>)} 
                 </> : null}
                 
             {op === 4 ? 
                 <>
                     <Button onClick={() => paginate(currentPage-5)}><ion-icon name="play-back"></ion-icon></Button>
                     <Button onClick={() => paginate(currentPage-1)}><ion-icon name="caret-back"></ion-icon></Button>
-                    {pages?.map(p => <Button onClick={() => paginate(p)}>{p}</Button>) }
+                    {pages?.map(p => <Button key={p} onClick={() => paginate(p)}>{p}</Button>) }
                     <Button onClick={() => paginate(currentPage+1)}><ion-icon name="caret-forward"></ion-icon></Button>
                     <Button onClick={() => paginate(currentPage+5)}><ion-icon name="play-forward"></ion-icon></Button>
                 </> : null}
