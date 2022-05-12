@@ -2,6 +2,7 @@ import { ActCard, ImgAct, BodyAct, DifSpan, SeasonSpan } from "../styles/Detail"
 
 
 const ActivityCard = ({url, name, difficulty, duration, season}) => {
+    console.log(url);
     return(
         <ActCard>
             <div>

@@ -80,13 +80,13 @@ export const BodyAct = styled.div`
 `
 
 export const ActContainer = styled.div`
-    display: flex;
-    justify-content: center;
-    width: 50%;
+    display: grid;
+    width: 80%;
+    place-items: center;
     grid-template-columns: repeat(
         auto-fit,
         minmax(
-            300px,
+            150px,
             1fr
         )
     );

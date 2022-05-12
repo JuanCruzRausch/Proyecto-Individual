@@ -78,6 +78,21 @@ const rootReducer = (state = initialState, action) => {
                 ...state,
                 currentPage: 1
             }
+        case "TOP_5":
+            let asia = state.countries.filter(c => c.continent === "Asia")
+            let top = asia.sort((a,b) => {
+                if (a.population < b.population) {
+                    return 1;
+                  }
+                  if (a.population > b.population) {
+                    return -1;
+                  }
+                  return 0;
+            })
+            return{
+                ...state,
+                countries: top.slice(0,5)
+            }
         default:
             return {...state}
     }

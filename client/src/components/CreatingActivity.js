@@ -27,7 +27,7 @@ const CreatingActivity = () => {
                 difficulty: difficultyAndSeason.difficulty,
                 duration: duration.field,
                 season: difficultyAndSeason.season,
-                url: url.field
+                image: url.field
             }))
             setName({field: "", validate: null})
             setUrl({field: "", validate: null})

@@ -26,7 +26,7 @@ const CardContainer = () => {
     useEffect(() => {
         setTimeout(() => {
             setLoad(true)
-        }, 3500)
+        }, 4000)
     }, [])
 
     return(

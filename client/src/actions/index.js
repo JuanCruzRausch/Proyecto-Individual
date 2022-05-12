@@ -122,3 +122,9 @@ export const editCountry = (editC, id) => async (dispatch) => {
     const newEdit = await axios.put(`http://localhost:3001/countries/edit/${id}`, editC)
     return newEdit
 }
+
+export const top5Asia = () => async (dispatch) => {
+    return dispatch({
+        type:"TOP_5"
+    })
+}

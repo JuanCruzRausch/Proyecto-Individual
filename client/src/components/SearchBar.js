@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { useDispatch } from "react-redux"
-import { getAllCountries, setFilters, getCountriesSearch } from "../actions"
+import { getAllCountries, setFilters, getCountriesSearch, top5Asia } from "../actions"
 import { Input, Button } from "../styles/SearchBar"
 
 const SearchBar = () => {
@@ -25,10 +25,16 @@ const SearchBar = () => {
         setName(e.target.value)
     }
 
+    const handleTop = e => {
+        e.preventDefault()
+        dispatch(top5Asia())
+    }
+
     return(
         <div>
             <Input type="text" placeholder="Search..." onChange={ e => handleChange(e) } />
             <Button type="submit" onClick={ e => handleSubmit(e)}>Search</Button>
+            <Button onClick={e => handleTop(e)}>Top 5 Asia</Button>
             <Button onClick={(e) => handleClick(e)}>Reload</Button>
         </div>
     )
