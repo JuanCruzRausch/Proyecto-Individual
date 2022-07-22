@@ -12,9 +12,9 @@
 
 The app has the backend and database deployed on Heroku and the frontend on Vercel.
 
-[Link](https://pennacchioni-pi.vercel.app/) to visit the app
-
-
+ [Countries App](https://countries-app-juan.herokuapp.com/)
+  ``` Full Stack Project for the bootcamp SoyHenry using REACT JS, SQL, EXPRESS & NODE JS ```
+  <a href="https://github.com/JuanCruzRausch/Proyecto-Individual">![image](https://user-images.githubusercontent.com/84107721/180557554-a4597db0-e96d-470c-bc85-7b09a45f347a.png)</a>
 
 Thanks for your time! I hope you enjoy my project.
 
