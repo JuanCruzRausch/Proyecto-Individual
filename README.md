@@ -10,7 +10,7 @@
 
 ## Deployment
 
-The app has the backend and database deployed on Heroku and the frontend on Vercel.
+The app is fully deployed on heroku
 
  [Countries App](https://countries-app-juan.herokuapp.com/)
   ``` Full Stack Project for the bootcamp SoyHenry using REACT JS, SQL, EXPRESS & NODE JS ```
